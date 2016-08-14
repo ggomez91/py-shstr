@@ -43,11 +43,11 @@ Current options are:
 
 | Option name |  Purpose | Values | Default | 
 | -------------- | -------------------------------- | ------------- | ------------ |
-| `missing_action` | What will happend when a variable is not found | `pyshstr.MissingActions.ignore, pyshstr.MissingActions.blank, pyshstr.MissingActions.doexcept` | `pyshstr.MissingActions.ignore` |
-| `allow_globals` | Whether or not to look for variables on the global scope  | `True`, `False` | `True` |
+| `missing_action` | What will happend when a variable is not found | `pyshstr.MissingActions.ignore`, `pyshstr.MissingActions.blank` or `pyshstr.MissingActions.doexcept` | `pyshstr.MissingActions.ignore` |
+| `allow_globals` | Whether or not to look for variables on the global scope  | `True` or `False` | `True` |
 | `regex` | The regex used to identify variable names in the string | A Python compiled re object | `re.compile("\$(\w+)")` | 
 | `custom_error` | The Exception to raise if a variable isn't found and MissingActions is set to MissingActinos.doexcept | Any python Exception class | `pyshstr.VarnameMissingError` |
-| `debug` | Prints debugginf messages | `True`, `False` | `False` |
+| `debug` | Prints debugginf messages | `True` or `False` | `False` |
 
 
 
