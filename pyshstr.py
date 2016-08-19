@@ -16,22 +16,40 @@ class VarnameMissingError (NameError):
 class Config:
     missing_action      =  MissingActions.ignore
     allow_globals       =  True
-    regex               =  re.compile("\$(\w+)")
+    delimiters          =  "{}"
     custom_error        =  VarnameMissingError
     debug               =  False
-
+    
+    def getDelim1():
+        return Config.delimiters[0]
+        
+    def getDelim2():
+        return Config.delimiters[1]
+        
+    def getRegex():
+        return re.compile("\$(?:\%s([a-zA-Z]\w+)\%s|([a-zA-Z]\w+))" % (Config.getDelim1(), Config.getDelim2()))
+        
 
 
 def debug (msg):
     if Config.debug:
         print ("\033[93m[debug]\t{}\033[00m".format(msg))
     
-def _replace(string, varname, value):
-    return string.replace("$"+varname, str(value))
+def _replace(string, varname, value, used_delimiters):
+
+    pattern = "$%s%s%s" % (Config.getDelim1(), varname ,Config.getDelim2()) if used_delimiters else ("",varname,"") 
+    
+    debug ("replaced %s --> %s" % (pattern, value) )
+    return string.replace(pattern, str(value))
   
 def shstr (string):
-    for varname in Config.regex.findall(string):
 
+    # The new regex returns tuples but one is always empty so we can join them and get the varname
+    for var_tuple in Config.getRegex().findall(string):
+    
+        used_delimiters = bool(var_tuple[0])        
+        varname = "".join(var_tuple)
+        
         try:
             frame = inspect.currentframe()
             
@@ -58,11 +76,11 @@ def shstr (string):
             del frame
 
         if value:
-            string = _replace(string, varname, value)
+            string = _replace(string, varname, value, used_delimiters)
         
         # is the value is missing and the action is to blank, set ""
         elif Config.missing_action == MissingActions.blank:
-            string = _replace(string, varname, "")
+            string = _replace(string, varname, "", used_delimiters)
         
         # No need to code for 'ignore' action. 
             

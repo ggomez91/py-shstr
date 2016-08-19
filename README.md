@@ -23,7 +23,7 @@ print ( pyshstr.shstr("Hello $name!") )
 ```
 
 #### Variables
-Variables within a string should be of the form: $**varname** where **varname** is any alphanumeric (0-9a-zA-Z_) valid python variable name. 
+Variables within a string should be of the form: $**varname** where **varname** is any valid python variable name. 
 
 Variables can be **local** or **global**. You can disable global lookuo with the **allow_globals** option.
 If a variable is not found in the scope there are 3 possible actions:
@@ -32,6 +32,29 @@ If a variable is not found in the scope there are 3 possible actions:
  2. **blank**: Replace the $**varname** in the string with an empty string (this is what a linux shell would do
  3. **doexcept**: Raise an exception. By defalt this will be a **pyshstr.VarnameMissingError** but you can override it with the **custom_error** option
 
+Just like Bash, the longest possible variable name will be replaced:
+
+```python3
+import pyshstr
+user="Gus"
+username="ggomez91"
+print (pyshstr.shstr("I am: $username"))
+>>> I am: ggomez91
+```
+
+You can use delimiters to avoid ambiguity:
+
+```python3
+import pyshstr
+user="Gus"
+username="ggomez91"
+print (pyshstr.shstr("I am: ${user}name"))
+>>> I am: Gusname
+```
+
+The delimiters can be customized with the **delimiters** option. 
+
+ 
 #### Config (Options)
 The Config class defines the behavior of pyshstr. This can be altered as such:
 ```python3
@@ -45,7 +68,7 @@ Current options are:
 | -------------- | -------------------------------- | ------------- | ------------ |
 | `missing_action` | What will happend when a variable is not found | `pyshstr.MissingActions.ignore`, `pyshstr.MissingActions.blank` or `pyshstr.MissingActions.doexcept` | `pyshstr.MissingActions.ignore` |
 | `allow_globals` | Whether or not to look for variables on the global scope  | `True` or `False` | `True` |
-| `regex` | The regex used to identify variable names in the string | A Python compiled re object | `re.compile("\$(\w+)")` | 
+| `delimiters` | The | delimiters that can enclose a variable | 2-char string | `"{}"` | 
 | `custom_error` | The Exception to raise if a variable isn't found and MissingActions is set to MissingActinos.doexcept | Any python Exception class | `pyshstr.VarnameMissingError` |
 | `debug` | Prints debugginf messages | `True` or `False` | `False` |
 

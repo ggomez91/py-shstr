@@ -1,12 +1,9 @@
 #!/bin/python3
 
 import pyshstr
-
-name=32
 pyshstr.Config.debug = True
-print (pyshstr.Config)
+#print (pyshstr.Config)
 
-def a():
-    print (pyshstr.shstr("$name"))
-
-a()
+user="Gus"
+username="ggomez91"
+print (pyshstr.shstr("I am: ${user}name"))
