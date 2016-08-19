@@ -2,7 +2,7 @@
 
 This is a Python3 module that allows shell-like string interpolation on python:
 
-```python3
+```python
 name = "Gus"
 print ( pyshstr("Hello $name!") )
 >>> Hello Gus!
@@ -15,7 +15,7 @@ Its really simple:
  2. Create some variables 
  3. call pyshstr.shstr with your string containing variables
 
-```python3
+```python
 import pyshstr
 name = "Gus"
 print ( pyshstr.shstr("Hello $name!") )
@@ -34,7 +34,7 @@ If a variable is not found in the scope there are 3 possible actions:
 
 Just like Bash, the longest possible variable name will be replaced:
 
-```python3
+```python
 import pyshstr
 user="Gus"
 username="ggomez91"
@@ -44,7 +44,7 @@ print (pyshstr.shstr("I am: $username"))
 
 You can use delimiters to avoid ambiguity:
 
-```python3
+```python
 import pyshstr
 user="Gus"
 username="ggomez91"
@@ -57,7 +57,7 @@ The delimiters can be customized with the **delimiters** option.
  
 #### Config (Options)
 The Config class defines the behavior of pyshstr. This can be altered as such:
-```python3
+```python
 pyshstr.Config.option = value
 ```
 
@@ -80,7 +80,7 @@ I love python and I don't like Perl but Perl has strign interpolations just like
 
 Yes, you can do this in normal python right?
 
-```python3
+```python
 name = "Gus"
 print ( "Hello %s!" %s )
 >>> Hello Gus!
@@ -88,7 +88,7 @@ print ( "Hello %s!" %s )
 
 But thats one variable, what about this?
 
-```python3
+```python
 a = "There"
 b = "Are"
 c = "Too"
@@ -105,7 +105,7 @@ print ( "OMG %(a)s %(b)s %(c)s %(d)s %(e)s %(f)s %(g)s!" % {"a":a, "b":b, "c":c,
 ```
 Not so easy now huh? Thats what this module does. 
 
-```python3
+```python
 import pyshstr
 
 a = "There"
