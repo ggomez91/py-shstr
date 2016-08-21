@@ -14,12 +14,14 @@ class VarnameMissingError (NameError):
     pass
     
 class Config:
-    missing_action      =  MissingActions.ignore
-    allow_globals       =  True
-    delimiters          =  "{}"
-    custom_error        =  VarnameMissingError
-    debug               =  False
-    
+
+    def init():
+        Config.missing_action = MissingActions.ignore
+        Config.allow_globals = True
+        Config.delimiters = "{}"
+        Config.custom_error = VarnameMissingError
+        Config.debug = False
+
     def getDelim1():
         return Config.delimiters[0]
         
@@ -30,6 +32,7 @@ class Config:
         return re.compile("\$(?:\%s([a-zA-Z]\w+)\%s|([a-zA-Z]\w+))" % (Config.getDelim1(), Config.getDelim2()))
         
 
+Config.init()
 
 def debug (msg):
     if Config.debug:
@@ -37,7 +40,8 @@ def debug (msg):
     
 def _replace(string, varname, value, used_delimiters):
 
-    pattern = "$%s%s%s" % (Config.getDelim1(), varname ,Config.getDelim2()) if used_delimiters else ("",varname,"") 
+    replace_tuple = (Config.getDelim1(), varname ,Config.getDelim2()) if used_delimiters else ("",varname,"")
+    pattern = "$%s%s%s" % replace_tuple
     
     debug ("replaced %s --> %s" % (pattern, value) )
     return string.replace(pattern, str(value))

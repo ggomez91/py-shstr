@@ -27,7 +27,15 @@ class TestRegularReplacements(unittest.TestCase):
         text = "$number is Five"
         number = 5
         self.assertEqual("5 is Five", pyshstr.shstr(text))
-        
+
+    def test_braces(self):
+        pyshstr.Config.init()
+        user = "gus"
+        username="ggomez"
+        text = "Hello ${user}name"
+
+        self.assertEqual("Hello gusname", pyshstr.shstr(text))
+
 class TestMissingVariables(unittest.TestCase):
     
     def test_blank(self):
@@ -73,8 +81,13 @@ class TestConfigOptions(unittest.TestCase):
         with self.assertRaises(CustomError):
             pyshstr.shstr(text)
         
-    def test_custom_regex(self):
-        pass
+    def test_custom_delims(self):
+        pyshstr.Config.delimiters = "%%"
+
+        text = "Using $%var% delimiters"
+        var = "custom"
+
+        self.assertEqual("Using custom delimiters", pyshstr.shstr(text))
 
 if __name__ == '__main__':
     unittest.main()
